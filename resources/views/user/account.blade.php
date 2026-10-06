@@ -1,35 +1,8 @@
-@extends('layout.store')
-
+@extends('layout.account')
 @section('title', 'My account · Essence Studio')
-
-@section('content')
-    <section class="page-heading container">
-        <span class="eyebrow">YOUR SPACE</span>
-        <h1>Welcome back, {{ auth()->user()->name }}.</h1>
-        <p>Your fragrance journey, all in one place.</p>
-    </section>
-
-    <div class="container account-grid">
-        <a class="account-tile" href="{{ route('user.cart.index') }}"><span>01</span>
-            <h2>Your bag</h2>
-            <p>Review the fragrances you have saved.</p><strong>View bag ↗</strong>
-        </a>
-        <a class="account-tile" href="{{ route('user.orders.index') }}"><span>02</span>
-            <h2>Your orders</h2>
-            <p>Follow every order from checkout to delivery.</p><strong>View orders ↗</strong>
-        </a>
-        <a class="account-tile" href="{{ route('products.index') }}"><span>03</span>
-            <h2>Explore scents</h2>
-            <p>Find another fragrance to make your own.</p><strong>Shop now ↗</strong>
-        </a>
-    </div>
-
-    <section class="container section compact-section">
-        <div class="section-heading">
-            <div><span class="eyebrow">RECENT ACTIVITY</span>
-                <h2>Latest orders</h2>
-            </div><a class="link-arrow" href="{{ route('user.orders.index') }}">View all ↗</a>
-        </div>
-        @include('user.partials.order-list', ['orders' => $orders])
-    </section>
+@section('account-content')
+    <header class="account-heading"><span class="eyebrow">Make yourself at home</span><h1>Hello, <em>{{ auth()->user()->name }}.</em></h1><p>Your fragrance collection starts here.</p></header>
+    <div class="account-overview"><div class="profile-panel"><span class="eyebrow">Your details</span><h3>{{ auth()->user()->name }}</h3><p>{{ auth()->user()->email }}</p></div><a class="account-discovery" href="{{ route('products.index') }}"><span class="eyebrow">Something new awaits</span><h3>Find your next<br><em>signature.</em></h3><span>Explore the collection ↗</span></a></div>
+    <div class="section-heading account-section-heading"><h2>Recent orders</h2><a class="text-link" href="{{ route('user.orders.index') }}">View all ↗</a></div>
+    @include('user.partials.order-list', ['orders' => $orders])
 @endsection

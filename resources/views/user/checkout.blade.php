@@ -1,49 +1,12 @@
 @extends('layout.store')
-
 @section('title', 'Checkout · Essence Studio')
-
 @section('content')
-    <section class="page-heading container">
-        <span class="eyebrow">ALMOST THERE</span>
-        <h1>Checkout.</h1>
-        <p>Tell us where your fragrance should go.</p>
-    </section>
-
-    <form class="container checkout-layout" method="post" action="{{ route('user.checkout.store') }}">
-        @csrf
-        <div class="panel checkout-form">
-            <h2>Contact and delivery</h2>
-            <div class="form-grid">
-                <div class="field"><label for="customer_name">Full name</label><input id="customer_name" name="customer_name"
-                        value="{{ old('customer_name', auth()->user()->name) }}" required></div>
-                <div class="field"><label for="customer_email">Email</label><input id="customer_email"
-                        name="customer_email" type="email" value="{{ old('customer_email', auth()->user()->email) }}"
-                        required></div>
-            </div>
-            <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone"
-                    value="{{ old('phone') }}" required></div>
-            <div class="field"><label for="shipping_address">Shipping address</label>
-                <textarea id="shipping_address" name="shipping_address" rows="4" required>{{ old('shipping_address') }}</textarea>
-            </div>
-            <div class="field"><label for="notes">Delivery notes <span class="muted">(optional)</span></label>
-                <textarea id="notes" name="notes" rows="3">{{ old('notes') }}</textarea>
-            </div>
+    <header class="container page-heading checkout-heading"><div><span class="eyebrow">The last little details</span><h1>Make it <em>yours.</em></h1></div><ol class="checkout-steps"><li><a href="{{ route('user.cart.index') }}">01 Bag</a></li><li aria-current="step">02 Delivery & review</li><li>03 Confirmation</li></ol></header>
+    <form class="container checkout-layout" method="post" action="{{ route('user.checkout.store') }}">@csrf
+        <div class="checkout-form"><section class="checkout-section"><div class="form-section-heading"><span>01</span><div><h2>Contact details</h2><p>So we can keep you updated about your order.</p></div></div><div class="form-grid">@include('auth.components.field', ['name' => 'customer_name', 'label' => 'Full name', 'autocomplete' => 'name', 'value' => auth()->user()->name]) @include('auth.components.field', ['name' => 'customer_email', 'label' => 'Email address', 'type' => 'email', 'autocomplete' => 'email', 'value' => auth()->user()->email])</div>@include('auth.components.field', ['name' => 'phone', 'label' => 'Phone number', 'type' => 'tel', 'autocomplete' => 'tel'])</section>
+            <section class="checkout-section"><div class="form-section-heading"><span>02</span><div><h2>Delivery address</h2><p>Where should your new fragrance find you?</p></div></div><div class="field"><label for="shipping_address">Full shipping address</label><textarea id="shipping_address" name="shipping_address" autocomplete="street-address" rows="4" required>{{ old('shipping_address') }}</textarea>@error('shipping_address')<small class="field-error">{{ $message }}</small>@enderror</div><div class="field"><label for="notes">Delivery notes <span class="muted">(optional)</span></label><textarea id="notes" name="notes" rows="3" placeholder="Anything we should know?">{{ old('notes') }}</textarea></div></section>
+            <section class="payment-note"><span class="eyebrow">Payment information</span><h3>Confirm your order first.</h3><p>Online payment is not available yet. Your order will be marked as pending payment until the store confirms payment with you.</p></section>
         </div>
-
-        <aside class="summary-card checkout-summary">
-            <h2>Your order</h2>
-            @foreach ($items as $item)
-                <div class="summary-row"><span>{{ $item->variant->product->name }} · {{ $item->variant->size }} ×
-                        {{ $item->quantity }}</span><strong>${{ number_format(($item->variant->effectivePriceCents() * $item->quantity) / 100, 2) }}</strong>
-                </div>
-            @endforeach
-            <div class="summary-row summary-total">
-                <span>Subtotal</span><strong>${{ number_format($subtotal / 100, 2) }}</strong>
-            </div>
-            <p class="checkout-note">Online payment is not available yet. Your order will be marked as pending payment until
-                the store confirms it.</p>
-            <button class="button button-dark button-block" type="submit">Place order ↗</button>
-            <a class="text-link" href="{{ route('user.cart.index') }}">Back to bag</a>
-        </aside>
+        <aside class="summary-card checkout-summary"><span class="eyebrow">Chosen by you</span><h2>Order review</h2>@foreach ($items as $item)<div class="checkout-item"><div class="checkout-item-image">@include('user.components.product-image', ['product' => $item->variant->product])</div><span><strong>{{ $item->variant->product->name }}</strong><small>{{ $item->variant->size }} · Qty {{ $item->quantity }}</small></span><strong>${{ number_format(($item->variant->effectivePriceCents() * $item->quantity) / 100, 2) }}</strong></div>@endforeach<div class="summary-row summary-total"><span>Subtotal</span><strong>${{ number_format($subtotal / 100, 2) }}</strong></div><button class="button button-dark button-block" type="submit">Place order @include('user.components.icon', ['name' => 'arrow'])</button><a class="summary-caption" href="{{ route('user.cart.index') }}">Edit your bag</a></aside>
     </form>
 @endsection

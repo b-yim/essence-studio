@@ -1,23 +1,8 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title') · Essence Studio</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="auth-body">
-    <div class="auth-shell">
-        @include('auth.partials.intro')
-        <main class="auth-main">
-            <a class="back-link" href="{{ route('home') }}">← Back to the shop</a>
-            <div class="auth-card">
-                @yield('content')
-            </div>
-        </main>
-    </div>
-</body>
-
-</html>
+@extends('layout.store')
+@section('title', request()->routeIs('register') ? 'Create account · Essence Studio' : 'Sign in · Essence Studio')
+@section('content')
+    <section class="auth-layout">
+        <div class="auth-art"><img src="{{ asset('images/essence-editorial.webp') }}" alt="Sunlight falling across a fragrance bottle" width="1024" height="1536"><div><span class="eyebrow">Your own little ritual</span><h2>A world of scent.<br><em>A space for you.</em></h2></div></div>
+        <div class="auth-main"><div class="auth-card"><a class="back-link" href="{{ route('products.index') }}">← Back to the collection</a><div class="auth-tabs"><a href="{{ route('login') }}" @class(['active' => request()->routeIs('login')])>Sign in</a><a href="{{ route('register') }}" @class(['active' => request()->routeIs('register')])>Create account</a></div>@yield('auth-content')</div></div>
+    </section>
+@endsection

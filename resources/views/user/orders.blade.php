@@ -1,14 +1,7 @@
-@extends('layout.store')
-
+@extends('layout.account')
 @section('title', 'My orders · Essence Studio')
-
-@section('content')
-    <section class="page-heading container"><span class="eyebrow">YOUR ACCOUNT</span>
-        <h1>My orders.</h1>
-        <p>Every scent has a story. Here are yours.</p>
-    </section>
-    <div class="container section compact-section">
-        @include('user.partials.order-list', ['orders' => $orders])
-        @include('user.partials.pagination', ['paginator' => $orders])
-    </div>
+@section('account-content')
+    <header class="account-heading"><span class="eyebrow">Your collection, in the making</span><h1>My <em>orders.</em></h1><p>View your purchases and their latest status.</p></header>
+    @include('user.partials.order-list', ['orders' => $orders])
+    @include('user.partials.pagination', ['paginator' => $orders])
 @endsection
