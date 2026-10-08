@@ -1,17 +1,30 @@
-FROM richarvey/nginx-php-fpm:3.1.6
+FROM php:8.4-fpm
+
+RUN apt-get update && apt-get install -y \
+    nginx \
+    git \
+    curl \
+    unzip \
+    libpq-dev \
+    libzip-dev \
+    zip \
+    && docker-php-ext-install pdo pdo_pgsql zip
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
 
 COPY . .
 
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader
 
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
-ENV COMPOSER_ALLOW_SUPERUSER 1
+COPY ./docker/nginx.conf /etc/nginx/sites-available/default
 
-CMD ["/start.sh"]
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
