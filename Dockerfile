@@ -27,4 +27,4 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
 
 COPY ./docker/nginx.conf /etc/nginx/sites-available/default
 
-CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "php artisan migrate --force && php artisan config:cache && php-fpm -D && nginx -g 'daemon off;'"]
