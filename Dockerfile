@@ -1,3 +1,14 @@
+FROM node:22 AS frontend
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+
 FROM php:8.4-fpm
 
 RUN apt-get update && apt-get install -y \
@@ -21,6 +32,8 @@ RUN composer install \
     --no-interaction \
     --prefer-dist \
     --optimize-autoloader
+
+COPY --from=frontend /app/public/build /var/www/html/public/build
 
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
