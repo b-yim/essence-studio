@@ -27,8 +27,7 @@
                     @forelse($products as $product)
                         <tr>
                             <td>
-                                <div class="table-product"><img
-                                        src="{{ $product->image_path ?: asset('images/perfume.svg') }}" alt="">
+                                <div class="table-product">@include('user.components.product-image', ['product' => $product])
                                     <div><strong>{{ $product->name }}</strong><small>{{ $product->brand }}</small></div>
                                 </div>
                             </td>

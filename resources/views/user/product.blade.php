@@ -5,7 +5,7 @@
     <nav class="container breadcrumb" aria-label="Breadcrumb"><a href="{{ route('home') }}">Home</a><span>/</span><a href="{{ route('products.index') }}">The collection</a><span>/</span><span>{{ $product->name }}</span></nav>
     <section class="container product-detail" data-product-detail>
         <div class="detail-media"><div class="detail-main-image">@include('user.components.product-image', ['product' => $product, 'loading' => 'eager', 'imageClass' => 'detail-image'])</div>
-            @if (! $product->image_path || $product->image_path === '/images/perfume.svg')<p class="image-caption">Studio illustration · Product packaging may vary</p>@endif
+            @if (! $product->image_path || $product->image_path === '/images/perfume.svg')<p class="image-caption">Editorial fragrance photography · Product packaging may vary</p>@endif
             @if ($product->gallery)<div class="gallery-grid">@foreach ($product->gallery as $image)<a href="{{ $image }}" target="_blank" rel="noopener"><img src="{{ $image }}" alt="{{ $product->name }} alternate view {{ $loop->iteration }}" loading="lazy"></a>@endforeach</div>@endif
         </div>
         <div class="detail-copy"><span class="eyebrow">{{ $product->category->name }} / {{ $product->brand }}</span><h1>{{ $product->name }}</h1><p class="detail-style">{{ $product->style }}</p>

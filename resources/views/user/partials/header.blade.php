@@ -9,13 +9,13 @@
                     <nav class="popover-panel mobile-navigation" aria-label="Mobile navigation">
                         <a href="{{ route('products.index') }}">All fragrances</a>
                         <a href="{{ route('home') }}#collections">Collections</a>
-                        <a href="{{ route('home') }}#our-story">Our story</a>
+                        <a href="{{ route('story') }}">Our story</a>
                     </nav>
                 </details>
                 <nav class="primary-nav" aria-label="Main navigation">
                     <a href="{{ route('products.index') }}" @class(['active' => request()->routeIs('products.*')])>Shop</a>
                     <a href="{{ route('home') }}#collections">Collections</a>
-                    <a href="{{ route('home') }}#our-story">Our story</a>
+                    <a href="{{ route('story') }}" @class(['active' => request()->routeIs('story')])>Our story</a>
                 </nav>
             </div>
         @endif

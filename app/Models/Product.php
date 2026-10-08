@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'gallery',
     'is_published',
 ])]
+
 class Product extends Model
 {
     /** @use HasFactory<ProductFactory> */

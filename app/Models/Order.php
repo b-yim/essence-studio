@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'shipping_address',
     'notes',
 ])]
+
 class Order extends Model
 {
     /** @var array<string, list<string>> */

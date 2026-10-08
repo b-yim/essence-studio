@@ -1,7 +1,7 @@
 <footer class="site-footer">
     <div class="container footer-top">
         <div class="footer-intro"><span class="eyebrow">An everyday ritual</span><h2>A lasting<br><em>impression.</em></h2><p>Fragrances with character. Moments made personal.</p></div>
-        <nav aria-label="Footer shop"><span class="footer-label">Explore</span><a href="{{ route('products.index') }}">All fragrances</a><a href="{{ route('home') }}#collections">The collections</a><a href="{{ route('home') }}#our-story">Our story</a></nav>
+        <nav aria-label="Footer shop"><span class="footer-label">Explore</span><a href="{{ route('products.index') }}">All fragrances</a><a href="{{ route('home') }}#collections">The collections</a><a href="{{ route('story') }}">Our story</a></nav>
         <nav aria-label="Footer account"><span class="footer-label">Your studio</span>
             @auth
                 @if (auth()->user()->isStaff())

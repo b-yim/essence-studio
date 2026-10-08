@@ -1,0 +1,240 @@
+/* Catalog and shared forms */
+.collection-heading,
+.page-heading {
+    padding-top: clamp(70px, 9vw, 60px);
+}
+
+.collection-heading {
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.collection-heading .eyebrow,
+.page-heading .eyebrow,
+.account-heading .eyebrow {
+    margin-bottom: 18px;
+}
+
+.collection-heading p,
+.page-heading p,
+.account-heading p {
+    margin-top: 24px;
+    color: var(--color-earth);
+}
+
+.catalog-section {
+    padding-bottom: 120px;
+}
+
+.catalog-toolbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 22px 0 48px;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.filter-disclosure {
+    width: auto;
+}
+
+.filter-disclosure[open] {
+    width: min(820px, 75%);
+}
+
+.filter-disclosure>summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: max-content;
+    min-height: 42px;
+    margin-left: auto;
+    padding: 9px 15px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    list-style: none;
+    background: var(--color-surface);
+    font-weight: 600;
+    transition: color var(--transition), background var(--transition);
+}
+
+.filter-disclosure>summary .icon {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--transition);
+}
+
+.filter-disclosure[open]>summary {
+    color: var(--color-white);
+    background: var(--color-ink);
+}
+
+.filter-disclosure[open]>summary .icon {
+    transform: rotate(45deg);
+}
+
+.filter-count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 20px;
+    height: 20px;
+    margin-left: 4px;
+    border-radius: 999px;
+    color: var(--color-white);
+    background: var(--color-earth);
+    font-size: 0.58rem;
+}
+
+.filter-form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 26px;
+    padding: 30px;
+    border-radius: var(--radius-medium);
+    background: var(--color-fog);
+}
+
+.filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    grid-column: 1 / -1;
+    padding-top: 6px;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    margin-top: 60px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.pagination>span {
+    color: var(--color-earth);
+}
+
+.pagination a {
+    border-bottom: 1px solid;
+}
+
+.field {
+    min-width: 0;
+    margin-bottom: 24px;
+}
+
+.field label,
+.quantity-label,
+legend {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--color-earth);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.field small {
+    display: block;
+    margin-top: 7px;
+    color: var(--color-earth);
+}
+
+.field-error {
+    color: var(--color-danger) !important;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 28px;
+}
+
+.stack-form {
+    display: grid;
+    gap: 8px;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.76rem;
+}
+
+.checkbox-row input {
+    width: 17px;
+    min-height: 17px;
+    margin: 0;
+}
+
+.notice {
+    margin-block: 20px;
+    padding: 18px 22px;
+    border-radius: var(--radius-small);
+}
+
+.notice-success {
+    color: var(--color-success);
+    background: var(--color-success-soft);
+}
+
+.notice-error {
+    color: var(--color-danger);
+    background: var(--color-danger-soft);
+}
+
+.notice ul {
+    margin-bottom: 0;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    padding: 80px 30px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-large);
+    text-align: center;
+}
+
+.empty-state>.icon {
+    width: 34px;
+    height: 34px;
+    margin: 0 auto 22px;
+}
+
+.empty-state p {
+    margin: 14px 0 24px;
+    color: var(--color-earth);
+}
+
+@media (max-width: 640px) {
+    .catalog-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .filter-form,
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-disclosure,
+    .filter-disclosure[open] {
+        width: 100%;
+    }
+
+    .filter-form {
+        padding: 22px;
+    }
+
+    .filter-actions {
+        grid-column: auto;
+    }
+}

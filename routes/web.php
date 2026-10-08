@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::view('/our-story', 'user.story')->name('story');
 Route::get('/shop', [ProductController::class, 'index'])->name('products.index');
 Route::get('/shop/{product}', [ProductController::class, 'show'])->name('products.show');
 

@@ -9,6 +9,7 @@ use App\Models\User;
 use Database\Seeders\DemoCatalogSeeder;
 use Database\Seeders\SuperAdminSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class StoreAccessTest extends TestCase
@@ -198,28 +199,29 @@ class StoreAccessTest extends TestCase
 
         $this->get(route('home'))
             ->assertOk()
-            ->assertSee('FW Imaginari')
-            ->assertSee('Cedar Afterglow');
+            ->assertSee('Lattafa Fakhar Black')
+            ->assertSee('Velixir Icarus');
 
         $this->get(route('products.index'))
             ->assertOk()
-            ->assertSee('Petal Morning')
-            ->assertSee('Santal Dusk');
+            ->assertSee('Armaf Ventana')
+            ->assertSee('Afnan 9PM Night Out')
+            ->assertSee('Rasasi Hawas Ice');
 
-        $this->assertDatabaseCount('products', 4);
+        $this->assertDatabaseCount('products', 9);
         $this->assertDatabaseCount('categories', 3);
     }
 
-    public function test_super_admin_seeder_uses_configured_credentials(): void
+    public function test_super_admin_seeder_creates_the_demo_account(): void
     {
-        config()->set('essence.super_admin.email', 'owner@test.example');
-        config()->set('essence.super_admin.password', 'SecureSeedPassword123!');
-
         $this->seed(SuperAdminSeeder::class);
 
         $this->assertDatabaseHas('users', [
-            'email' => 'owner@test.example',
+            'name' => 'Essence Super Admin',
+            'email' => 'admin@essence.test',
             'role' => 'super_admin',
         ]);
+
+        $this->assertTrue(Hash::check('Password123!', User::where('email', 'admin@essence.test')->firstOrFail()->password));
     }
 }

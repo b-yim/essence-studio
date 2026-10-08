@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['user_id', 'product_variant_id', 'quantity'])]
+#[Fillable([
+    'user_id',
+    'product_variant_id',
+    'quantity'])
+]
+
 class CartItem extends Model
 {
     /** @use HasFactory<CartItemFactory> */

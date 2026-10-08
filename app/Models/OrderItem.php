@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'quantity',
     'line_total_cents',
 ])]
+
 class OrderItem extends Model
 {
     /** @use HasFactory<OrderItemFactory> */
