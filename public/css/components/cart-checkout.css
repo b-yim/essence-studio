@@ -67,6 +67,15 @@
     margin-top: 28px;
 }
 
+.cart-layout-empty {
+    grid-template-columns: 1fr;
+}
+
+.cart-layout-empty .empty-state {
+    width: min(760px, 100%);
+    margin-inline: auto;
+}
+
 .summary-card,
 .panel,
 .profile-panel {

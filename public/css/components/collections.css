@@ -122,7 +122,7 @@
     grid-template-columns: 1fr 1fr;
     gap: clamp(48px, 9vw, 80px);
     align-items: center;
-    padding: clamp(100px, 12vw, 180px) var(--page-gutter);
+    padding: clamp(40px, 12vw, 180px) var(--page-gutter);
 }
 
 .story-image {

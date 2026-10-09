@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AdminAccountController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\HeroSlideController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProductVariantController;
@@ -46,6 +47,7 @@ Route::middleware(['auth', 'role:customer'])->prefix('account')->name('user.')->
 
 Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('admin.')->group(function (): void {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('hero-slides', HeroSlideController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('categories', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('products', AdminProductController::class)->except(['show']);
     Route::post('/products/{product}/variants', [ProductVariantController::class, 'store'])->name('variants.store');

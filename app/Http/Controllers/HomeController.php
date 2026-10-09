@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HeroSlide;
 use App\Models\Product;
 use Illuminate\View\View;
 
@@ -16,8 +17,14 @@ class HomeController extends Controller
             ->take(8)
             ->get();
 
+        $heroSlides = HeroSlide::query()
+            ->active()
+            ->ordered()
+            ->get();
+
         return view('user.home', [
             'featured' => $featured,
+            'heroSlides' => $heroSlides,
         ]);
     }
 }

@@ -5,7 +5,7 @@
     <h1>The shopping <em>bag.</em></h1>
     <p>{{ $items->sum('quantity') }} items, chosen by you.</p>
 </header>
-<div class="container cart-layout">
+<div @class(['container', 'cart-layout', 'cart-layout-empty' => $items->isEmpty()])>
     <section class="cart-items" aria-label="Bag items">@forelse ($items as $item)
         <article class="cart-item"><a class="cart-image" href="{{ route('products.show', $item->variant->product) }}">@include('user.components.product-image', ['product' => $item->variant->product])</a>
             <div class="cart-item-copy"><span class="eyebrow">{{ $item->variant->product->brand }}</span>

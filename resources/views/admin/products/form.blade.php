@@ -12,7 +12,7 @@
     </div>
 
     <form method="post" action="{{ $editing ? route('admin.products.update', $product) : route('admin.products.store') }}"
-        class="admin-product-form">
+        enctype="multipart/form-data" class="admin-product-form">
         @csrf
         @if ($editing)
             @method('PATCH')
@@ -60,10 +60,15 @@
 
         <div class="admin-panel">
             <h2>Images and visibility</h2>
-            <div class="field"><label for="image_path">Main image URL</label><input id="image_path" name="image_path"
-                    type="url"
-                    value="{{ old('image_path', str_starts_with($product->image_path ?? '', 'http') ? $product->image_path : '') }}"
-                    placeholder="https://..."><small>Leave blank to use the studio illustration.</small></div>
+            <div class="form-grid">
+                <div class="field"><label for="image_path">Main image URL</label><input id="image_path"
+                        name="image_path" type="url"
+                        value="{{ old('image_path', str_starts_with($product->image_path ?? '', 'http') ? $product->image_path : '') }}"
+                        placeholder="https://..."><small>Paste a direct image URL, or upload a file.</small></div>
+                <div class="field"><label for="image_upload">Upload main image</label><input id="image_upload"
+                        name="image_upload" type="file" accept="image/jpeg,image/png,image/webp"><small>JPG, PNG,
+                        or WebP, up to 5 MB. An uploaded file takes priority over a URL.</small></div>
+            </div>
             <div class="field"><label for="image_alt">Image description</label><input id="image_alt" name="image_alt"
                     value="{{ old('image_alt', $product->image_alt) }}" placeholder="Describe the product image"></div>
             <div class="field"><label for="gallery_urls">Gallery image URLs</label>

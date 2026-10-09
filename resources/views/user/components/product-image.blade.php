@@ -26,6 +26,6 @@
         || in_array($product->image_path, $obsoleteProductImages, true);
     $fallbackImage = $demoImages[$product->slug] ?? 'images/products/hero-perfume.webp';
 @endphp
-<img src="{{ $usesFallbackPhoto ? asset($fallbackImage) : $product->image_path }}"
+<img src="{{ $usesFallbackPhoto ? asset($fallbackImage) : $product->imageUrl() }}"
     alt="{{ $usesFallbackPhoto ? 'Editorial fragrance photograph for ' . $product->name : ($product->image_alt ?: $product->name) }}"
     loading="{{ $loading ?? 'lazy' }}" class="{{ $imageClass ?? '' }}">

@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -42,6 +43,16 @@ class ProductController extends Controller
             'stock_quantity' => ['required', 'integer', 'min:0'],
         ]);
 
+        if ($request->hasFile('image_upload')) {
+            $imagePath = $request->file('image_upload')?->storePublicly('products', 'public');
+
+            if (! is_string($imagePath)) {
+                return back()->withErrors(['image_upload' => 'The product image could not be stored.'])->withInput();
+            }
+
+            $data['image_path'] = $imagePath;
+        }
+
         $product = DB::transaction(function () use ($data, $variant): Product {
             $product = Product::create($data);
             $product->variants()->create([
@@ -72,14 +83,39 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product): RedirectResponse
     {
-        $product->update($this->validatedProduct($request, $product));
+        $data = $this->validatedProduct($request, $product);
+        $previousImagePath = $product->image_path;
+        $previousImageWasUploaded = $product->usesUploadedImage();
+
+        if ($request->hasFile('image_upload')) {
+            $imagePath = $request->file('image_upload')?->storePublicly('products', 'public');
+
+            if (! is_string($imagePath)) {
+                return back()->withErrors(['image_upload' => 'The product image could not be stored.'])->withInput();
+            }
+
+            $data['image_path'] = $imagePath;
+        }
+
+        $product->update($data);
+
+        if ($data['image_path'] !== $previousImagePath && $previousImageWasUploaded && is_string($previousImagePath)) {
+            Storage::disk('public')->delete($previousImagePath);
+        }
 
         return back()->with('success', 'Product updated.');
     }
 
     public function destroy(Product $product): RedirectResponse
     {
+        $imagePath = $product->image_path;
+        $imageWasUploaded = $product->usesUploadedImage();
+
         $product->delete();
+
+        if ($imageWasUploaded && is_string($imagePath)) {
+            Storage::disk('public')->delete($imagePath);
+        }
 
         return redirect()->route('admin.products.index')->with('success', 'Product deleted.');
     }
@@ -106,7 +142,8 @@ class ProductController extends Controller
             'use_cases' => ['nullable', 'string', 'max:255'],
             'longevity' => ['nullable', 'string', 'max:255'],
             'projection' => ['nullable', 'string', 'max:500'],
-            'image_path' => ['nullable', 'url', 'max:2048'],
+            'image_path' => ['nullable', 'url', 'starts_with:http://,https://', 'max:2048'],
+            'image_upload' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'image_alt' => ['nullable', 'string', 'max:255'],
             'gallery_urls' => ['nullable', 'string', 'max:10000'],
         ]);
@@ -124,7 +161,7 @@ class ProductController extends Controller
             ->filter(fn ($url) => filter_var($url, FILTER_VALIDATE_URL))
             ->values()
             ->all();
-        unset($data['gallery_urls']);
+        unset($data['gallery_urls'], $data['image_upload']);
 
         return $data;
     }
