@@ -16,6 +16,7 @@ class HeroSlideController extends Controller
     {
         return view('admin.hero-slides', [
             'heroSlides' => HeroSlide::query()->ordered()->get(),
+            'imagePositions' => HeroSlide::IMAGE_POSITIONS,
         ]);
     }
 
@@ -101,7 +102,7 @@ class HeroSlideController extends Controller
             'kicker' => ['required', 'string', 'max:100'],
             'title' => ['required', 'string', 'max:150'],
             'image_alt' => ['required', 'string', 'max:255'],
-            'image_position' => ['required', Rule::in(['center', 'top', 'bottom', 'left', 'right'])],
+            'image_position' => ['required', Rule::in(array_keys(HeroSlide::IMAGE_POSITIONS))],
             'sort_order' => ['required', 'integer', 'min:1', 'max:999'],
             'image' => [
                 $heroSlide ? 'nullable' : 'required_without:image_url',

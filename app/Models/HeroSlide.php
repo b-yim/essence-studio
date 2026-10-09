@@ -25,6 +25,14 @@ class HeroSlide extends Model
     /** @use HasFactory<HeroSlideFactory> */
     use HasFactory;
 
+    public const IMAGE_POSITIONS = [
+        'center' => 'Center',
+        'top' => 'Top',
+        'bottom' => 'Bottom',
+        'left' => 'Left',
+        'right' => 'Right',
+    ];
+
     protected function casts(): array
     {
         return [
