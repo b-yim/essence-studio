@@ -34,7 +34,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show(Product $product): View
+    public function show(Request $request, Product $product): View
     {
         abort_unless($product->is_published, 404);
         $product->load([
@@ -50,9 +50,53 @@ class ProductController extends Controller
             ->take(3)
             ->get();
 
+        $reviewSummary = $product->reviews()
+            ->approved()
+            ->selectRaw('COUNT(*) as total_reviews, AVG(rating) as average_rating')
+            ->selectRaw('SUM(CASE WHEN rating = 5 THEN 1 ELSE 0 END) as rating_5_count')
+            ->selectRaw('SUM(CASE WHEN rating = 4 THEN 1 ELSE 0 END) as rating_4_count')
+            ->selectRaw('SUM(CASE WHEN rating = 3 THEN 1 ELSE 0 END) as rating_3_count')
+            ->selectRaw('SUM(CASE WHEN rating = 2 THEN 1 ELSE 0 END) as rating_2_count')
+            ->selectRaw('SUM(CASE WHEN rating = 1 THEN 1 ELSE 0 END) as rating_1_count')
+            ->first();
+        $totalReviews = (int) $reviewSummary->total_reviews;
+        $ratingBreakdown = collect(range(5, 1))->mapWithKeys(function (int $rating) use ($reviewSummary, $totalReviews): array {
+            $count = (int) $reviewSummary->{"rating_{$rating}_count"};
+
+            return [$rating => [
+                'count' => $count,
+                'percentage' => $totalReviews > 0 ? (int) round(($count / $totalReviews) * 100) : 0,
+            ]];
+        });
+        $reviews = $product->reviews()
+            ->approved()
+            ->with('user:id,name')
+            ->orderByDesc('published_at')
+            ->orderByDesc('id')
+            ->paginate(6, ['*'], 'reviews')
+            ->withQueryString()
+            ->fragment('reviews');
+
+        $customerReview = null;
+        $canReview = false;
+
+        if ($request->user()?->role === 'customer') {
+            $customerReview = $product->reviews()->whereBelongsTo($request->user())->latest()->first();
+            $canReview = ! $customerReview && $request->user()->orders()
+                ->where('status', 'delivered')
+                ->whereHas('items.productVariant', fn (Builder $query): Builder => $query->whereBelongsTo($product))
+                ->exists();
+        }
+
         return view('user.product', [
             'product' => $product,
             'related' => $related,
+            'reviews' => $reviews,
+            'averageRating' => $totalReviews > 0 ? round((float) $reviewSummary->average_rating, 1) : 0.0,
+            'totalReviews' => $totalReviews,
+            'ratingBreakdown' => $ratingBreakdown,
+            'customerReview' => $customerReview,
+            'canReview' => $canReview,
         ]);
     }
 

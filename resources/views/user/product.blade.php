@@ -25,5 +25,6 @@
             <div class="scent-accordions"><details open><summary>The scent story <span>+</span></summary><dl>@foreach (['Opening notes' => $product->opening_smell, 'The feeling' => $product->main_vibe, 'Character' => $product->character, 'Overall scent' => $product->overall_smell] as $label => $value) @if ($value)<div><dt>{{ $label }}</dt><dd>{{ $value }}</dd></div>@endif @endforeach</dl></details><details><summary>When to wear it <span>+</span></summary><dl>@foreach (['Seasons' => $product->best_seasons, 'Occasions' => $product->use_cases, 'Longevity' => $product->longevity, 'Projection' => $product->projection] as $label => $value) @if ($value)<div><dt>{{ $label }}</dt><dd>{{ $value }}</dd></div>@endif @endforeach</dl></details></div>
         </div>
     </section>
+    @include('user.partials.product-reviews')
     @if ($related->isNotEmpty())<section class="container section related-section"><div class="section-heading"><div><span class="eyebrow">Stay a little longer</span><h2>You may also <em>love.</em></h2></div></div><div class="product-grid">@foreach ($related as $relatedProduct) @include('user.components.product-card', ['product' => $relatedProduct]) @endforeach</div></section>@endif
 @endsection

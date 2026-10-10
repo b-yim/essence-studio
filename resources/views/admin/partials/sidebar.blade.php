@@ -8,6 +8,7 @@
         <a href="{{ route('admin.products.index') }}" @class(['active' => request()->routeIs('admin.products.*')])>◈ <span>Products</span></a>
         <a href="{{ route('admin.categories.index') }}" @class(['active' => request()->routeIs('admin.categories.*')])>▦ <span>Categories</span></a>
         <a href="{{ route('admin.orders.index') }}" @class(['active' => request()->routeIs('admin.orders.*')])>▤ <span>Orders</span></a>
+        <a href="{{ route('admin.reviews.index') }}" @class(['active' => request()->routeIs('admin.reviews.*')])>★ <span>Reviews</span></a>
         @if (auth()->user()->isSuperAdmin())
             <a href="{{ route('admin.accounts.index') }}" @class(['active' => request()->routeIs('admin.accounts.*')])>♙ <span>Admin accounts</span></a>
         @endif
