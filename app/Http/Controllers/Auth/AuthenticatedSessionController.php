@@ -29,9 +29,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route(
-            $request->user()->isStaff() ? 'admin.dashboard' : 'user.account',
-        );
+        return redirect()->route('home');
     }
 
     public function destroy(Request $request): RedirectResponse

@@ -38,12 +38,36 @@ class StoreAccessTest extends TestCase
             'password' => 'SecurePassword123!',
             'password_confirmation' => 'SecurePassword123!',
             'role' => 'super_admin',
-        ])->assertRedirect(route('user.account'));
+        ])->assertRedirect(route('home'));
 
         $this->assertDatabaseHas('users', [
             'email' => 'customer@example.com',
             'role' => 'customer',
         ]);
+    }
+
+    public function test_customer_login_redirects_to_home(): void
+    {
+        $customer = User::factory()->create();
+
+        $this->post(route('login.store'), [
+            'email' => $customer->email,
+            'password' => 'password',
+        ])->assertRedirect(route('home'));
+
+        $this->assertAuthenticatedAs($customer);
+    }
+
+    public function test_staff_login_redirects_to_home(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $this->post(route('login.store'), [
+            'email' => $admin->email,
+            'password' => 'password',
+        ])->assertRedirect(route('home'));
+
+        $this->assertAuthenticatedAs($admin);
     }
 
     public function test_roles_cannot_cross_into_the_other_area(): void
