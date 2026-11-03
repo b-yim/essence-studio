@@ -39,6 +39,7 @@
 
 .filter-disclosure {
     width: auto;
+    margin-left: auto;
 }
 
 .filter-disclosure[open] {

@@ -210,4 +210,14 @@ summary::-webkit-details-marker {
     .popover-panel {
         width: min(340px, calc(100vw - 28px));
     }
+
+    .account-menu {
+        position: fixed;
+        top: 98px;
+        right: auto;
+        left: 50%;
+        width: min(380px, calc(100vw - 28px));
+        padding: 26px;
+        transform: translateX(-50%);
+    }
 }

@@ -40,6 +40,21 @@ document.querySelectorAll('[data-quantity]').forEach((control) => {
     updateButtons();
 });
 
+document.querySelectorAll('[data-payment-preview]').forEach((preview) => {
+    const methods = preview.querySelectorAll('input[name="payment_preview"]');
+    const panels = preview.querySelectorAll('[data-payment-panel]');
+
+    const updatePreview = () => {
+        const selected = preview.querySelector('input[name="payment_preview"]:checked')?.value;
+        panels.forEach((panel) => {
+            panel.hidden = panel.dataset.paymentPanel !== selected;
+        });
+    };
+
+    methods.forEach((method) => method.addEventListener('change', updatePreview));
+    updatePreview();
+});
+
 document.querySelectorAll('[data-product-detail]').forEach((detail) => {
     const quantity = detail.querySelector('input[name="quantity"]');
     const price = detail.querySelector('[data-variant-price]');

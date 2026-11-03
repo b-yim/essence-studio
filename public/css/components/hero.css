@@ -7,7 +7,11 @@
 .campaign-inner {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
     gap: 10px;
+    height: calc(100vh - 124px);
+    height: calc(100dvh - 124px);
+    min-height: 560px;
     padding: 10px;
     overflow: hidden;
     border-radius: var(--radius-large);
@@ -18,7 +22,7 @@
 
 .campaign-copy,
 .campaign-visual {
-    min-height: min(740px, calc(100vh - 135px));
+    min-height: 0;
     border-radius: calc(var(--radius-large) - 8px);
 }
 
@@ -313,6 +317,8 @@
 @media (max-width: 900px) {
     .campaign-inner {
         grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
     }
 
     .campaign-copy {

@@ -118,15 +118,47 @@
     .auth-layout {
         grid-template-columns: 1fr;
     }
-}
 
-@media (max-width: 640px) {
     .auth-art {
-        min-height: 500px;
-        margin: 10px;
+        display: none;
     }
 
     .auth-main {
-        padding: 60px 24px;
+        min-height: calc(100dvh - 100px);
+        padding: 64px 32px 88px;
+    }
+}
+
+@media (max-width: 640px) {
+    .auth-main {
+        display: block;
+        min-height: calc(100dvh - 90px);
+        padding: 32px 24px 72px;
+    }
+
+    .auth-card {
+        max-width: 460px;
+        margin-inline: auto;
+    }
+
+    .auth-tabs {
+        margin: 30px 0 38px;
+    }
+
+    .auth-card h1 {
+        margin: 12px 0 16px;
+        font-size: clamp(3.25rem, 13vw, 4.5rem);
+    }
+
+    .auth-subtitle {
+        margin-bottom: 22px;
+    }
+
+    .auth-card .field {
+        margin-bottom: 14px;
+    }
+
+    .auth-switch {
+        margin-top: 28px;
     }
 }

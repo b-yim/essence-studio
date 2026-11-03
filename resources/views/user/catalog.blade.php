@@ -4,7 +4,7 @@
     @php($activeFilterCount = collect(request()->only(['q', 'category', 'style', 'season', 'longevity', 'min_price', 'max_price']))->filter(fn (mixed $value): bool => filled($value))->count())
     <section class="collection-heading container"><span class="eyebrow">Find your signature</span><h1>The <em>collection.</em></h1><p>A fragrance for every feeling. Explore the studio selection.</p></section>
     <section class="container catalog-section">
-        <div class="catalog-toolbar"><span>{{ $products->total() }} fragrances</span><details class="filter-disclosure"><summary><span>Filters @if ($activeFilterCount > 0)<small class="filter-count">{{ $activeFilterCount }}</small>@endif</span>@include('user.components.icon', ['name' => 'plus'])</summary>
+        <div class="catalog-toolbar"><details class="filter-disclosure"><summary><span>Filters @if ($activeFilterCount > 0)<small class="filter-count">{{ $activeFilterCount }}</small>@endif</span>@include('user.components.icon', ['name' => 'plus'])</summary>
             <form class="filter-form" action="{{ route('products.index') }}" method="get">
                 <div class="field"><label for="q">Search</label><input id="q" type="search" name="q" value="{{ request('q') }}" placeholder="Name or brand" maxlength="100"></div>
                 <div class="field"><label for="category">Collection</label><select id="category" name="category"><option value="">All collections</option>@foreach ($categories as $category)<option value="{{ $category->slug }}" @selected(request('category') === $category->slug)>{{ $category->name }}</option>@endforeach</select></div>

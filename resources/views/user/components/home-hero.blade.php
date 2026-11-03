@@ -3,7 +3,7 @@
         <div class="campaign-copy">
             <span class="eyebrow">Perfume, edited for now — 2026</span>
             <h1>Leave a trace.<br><em>Make it yours.</em></h1>
-            <p>Fresh signatures, magnetic nights, and warm skin scents. Nine fragrances chosen for every version of you.</p>
+            <p>Fresh signatures, magnetic nights, and warm skin scents. A fragrance for every version of you.</p>
             <a class="button button-light" href="{{ route('products.index') }}">
                 Shop the collection @include('user.components.icon', ['name' => 'arrow'])
             </a>
